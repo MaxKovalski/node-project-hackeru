@@ -1,5 +1,6 @@
 const { User } = require("../models/user.js");
-const { JWT_SECRET, userJwt } = require("../config/jwtConfig");
+const { userJwt } = require("../config/jwtConfig");
+const { editUserValidator } = require("../middleware/validationMiddleware.js");
 exports.getAllUsers = async (req, res) => {
   try {
     const users = await User.find({});
@@ -24,7 +25,7 @@ exports.GetUserData = (req, res, next) => {
   }
   next();
 };
-exports.EditUserData = async (req, res, next) => {
+exports.EditUserData = async (req, res) => {
   const { userId } = userJwt(req, res);
   const { id } = req.params;
   const updateData = req.body;
@@ -32,9 +33,18 @@ exports.EditUserData = async (req, res, next) => {
     if (id != userId) {
       return res.status(401).send("User Not Found");
     }
+    const validate = editUserValidator.validate(req.body, {
+      abortEarly: false,
+      allowUnknown: true,
+    });
+    if (validate.error) {
+      const errors = validate.error.details.map((err) => err.message);
+      return res.status(403).send(errors);
+    }
     const updatedUser = await User.findByIdAndUpdate(userId, updateData, {
       new: true,
     });
+
     if (!updatedUser) {
       return res.status(404).send("User Not Found");
     }
@@ -45,7 +55,7 @@ exports.EditUserData = async (req, res, next) => {
       .json({ message: "User Data Updated Successfully", user: userObject });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "User Not Found" });
+    res.status(404).json({ error: "User Not Found" });
   }
 };
 exports.EditUserBusiness = async (req, res, next) => {
@@ -64,12 +74,12 @@ exports.EditUserBusiness = async (req, res, next) => {
     res.status(401).json({ error: "User Not Found" });
   }
 };
-exports.deleteUser = async (req, res, next) => {
+exports.deleteUser = async (req, res) => {
   const { userId } = userJwt(req, res);
   const { id } = req.params;
   try {
     if (id != userId) {
-      return res.status(401).send("User Not Found");
+      return res.status(404).send("User Not Found");
     }
     const userObject = await User.findByIdAndDelete(userId);
     if (!userObject) {
@@ -77,6 +87,6 @@ exports.deleteUser = async (req, res, next) => {
     }
     res.status(200).json({ message: "User Deleted Successfully" });
   } catch (error) {
-    res.status(401).json({ error: "User Not Found" });
+    res.status(404).json({ error: "User Not Found" });
   }
 };

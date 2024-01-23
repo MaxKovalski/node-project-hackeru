@@ -1,30 +1,24 @@
 const bcrypt = require("bcrypt");
 const { User } = require("../models/user.js");
 const {
-  validationMiddleware,
+  newUserValidator,
+  loginUserValidator,
 } = require("../middleware/validationMiddleware.js");
 const { JWT_SECRET } = require("../config/jwtConfig.js");
 const jwt = require("jsonwebtoken");
 
 exports.signup = async (req, res) => {
   try {
-    const { name, email, phone, password, address, image } = req.body;
-    const validate = validationMiddleware.validate(req.body, {
+    const userData = req.body;
+    const validate = newUserValidator.validate(req.body, {
       abortEarly: false,
     });
     if (validate.error) {
       const errors = validate.error.details.map((err) => err.message);
       return res.status(403).send(errors);
     }
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new User({
-      name,
-      email,
-      phone,
-      password: hashedPassword,
-      address,
-      image,
-    });
+    const hashedPassword = await bcrypt.hash(userData.password, 10);
+    const user = new User(userData);
     const savedUser = await user.save();
     res
       .status(201)
@@ -33,14 +27,17 @@ exports.signup = async (req, res) => {
     if (error.code === 11000) {
       return res.status(400).json({ error: "Email is already registered." });
     }
-    console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
 exports.login = async (req, res) => {
   const { email, password } = req.body;
-  if (!email || !password) {
-    return res.status(403).send("inputs cant be empty");
+  const validate = loginUserValidator.validate(req.body, {
+    abortEarly: false,
+  });
+  if (validate.error) {
+    const errors = validate.error.details.map((err) => err.message);
+    return res.status(403).send(errors);
   }
   const user = await User.findOne({ email });
   if (!user) {
@@ -67,7 +64,6 @@ exports.login = async (req, res) => {
 
   res.send(userObject.token);
 };
-
 exports.hello = (req, res) => {
   res.send("Hello World");
 };

@@ -19,6 +19,7 @@ const schema = new Schema({
     city: { type: String },
     street: { type: String },
     houseNumber: { type: Number },
+    zip: { type: Number },
     _id: { type: ObjectId, default: () => new mongoose.Types.ObjectId() },
   },
   image: {
@@ -34,5 +35,6 @@ const schema = new Schema({
     type: Boolean,
     default: false,
   },
+  createTime: { type: Date, default: Date.now() },
 });
 exports.User = mongoose.model("users", schema);

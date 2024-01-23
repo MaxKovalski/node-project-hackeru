@@ -15,3 +15,9 @@ exports.adminOnly = (req, res, next) => {
   }
   next();
 };
+exports.businessOnly = (req, res, next) => {
+  if (!userJwt(req, res).IsBusiness) {
+    return res.status(403).send("Access denied. Business only.");
+  }
+  next();
+};

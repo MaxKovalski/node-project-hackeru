@@ -1,5 +1,5 @@
 const Joi = require("joi");
-exports.validationMiddleware = Joi.object({
+const userValidatorSchema = Joi.object({
   name: Joi.object({
     first: Joi.string().required(),
     middle: Joi.string().optional(),
@@ -7,7 +7,6 @@ exports.validationMiddleware = Joi.object({
   }),
   email: Joi.string().email().required(),
   phone: Joi.string().required(),
-  password: Joi.string().required(),
   address: Joi.object({
     state: Joi.string(),
     country: Joi.string(),
@@ -19,4 +18,12 @@ exports.validationMiddleware = Joi.object({
     url: Joi.string(),
     alt: Joi.string(),
   }),
+});
+exports.newUserValidator = userValidatorSchema.append({
+  password: Joi.string().required(),
+});
+exports.editUserValidator = userValidatorSchema;
+exports.loginUserValidator = Joi.object({
+  email: Joi.string().email().required(),
+  password: Joi.string().required(),
 });

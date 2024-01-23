@@ -6,6 +6,7 @@ const authRouter = require("./routes/authRoutes");
 const env = require("dotenv").config();
 const moment = require("moment");
 const fs = require("fs");
+const cardRouter = require("./routes/cardRoutes");
 async function mongoConnect() {
   await mongoose.connect(env.parsed.MONGO_URL);
   console.log("monogodb Connected");
@@ -32,6 +33,7 @@ app.listen(env.parsed.PORT, async () => {
 });
 app.use(userRouter);
 app.use(authRouter);
+app.use(cardRouter);
 app.get("/", (req, res) => {
   res.send("Test");
 });
