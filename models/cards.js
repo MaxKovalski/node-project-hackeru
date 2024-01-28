@@ -7,6 +7,7 @@ const schema = new Schema({
   description: String,
   phone: String,
   web: String,
+  email: String,
   image: {
     url: { type: String },
     alt: { type: String },

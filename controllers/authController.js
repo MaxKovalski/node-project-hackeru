@@ -10,14 +10,13 @@ const jwt = require("jsonwebtoken");
 exports.signup = async (req, res) => {
   try {
     const userData = req.body;
-    const validate = newUserValidator.validate(req.body, {
+    const validate = newUserValidator.validate(userData, {
       abortEarly: false,
     });
     if (validate.error) {
       const errors = validate.error.details.map((err) => err.message);
       return res.status(403).send(errors);
     }
-
     const hashedPassword = await bcrypt.hash(userData.password, 10);
     userData.password = hashedPassword;
     const user = new User(userData);

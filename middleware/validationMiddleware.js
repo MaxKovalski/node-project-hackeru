@@ -56,47 +56,45 @@ exports.loginUserValidator = Joi.object({
     )
     .required(),
 });
-// cardValidator = Joi.object({
-//   title: Joi.string().required().min(2).max(100),
+exports.cardValidator = Joi.object({
+  title: Joi.string().required().min(2).max(100),
 
-//   subtitle: Joi.string().required().min(2).max(100),
+  subtitle: Joi.string().required().min(2).max(100),
 
-//   description: Joi.string().required().min(10).max(500),
+  description: Joi.string().required().min(10).max(500),
 
-//   phone: Joi.string()
-//   .regex(/0[0-9]{1,2}\-?\s?[0-9]{3}\s?[0-9]{4}/)
-//     .rule({ message: 'card "phone" must be a valid phone number' })
-//     .required(),
+  phone: Joi.string()
+    .regex(/0[0-9]{1,2}\-?\s?[0-9]{3}\s?[0-9]{4}/)
+    .message('user "phone" must be a valid Israeli phone number')
+    .required(),
 
-//   email: Joi.string()
-//    .pattern(
-//       /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/
-//     )
-//     .rule({ message: 'card "mail" must be a valid mail' })
-//     .required(),
+  phone: Joi.string()
+    .pattern(/^(0[2-4,8-9][0-9]{7}|0[57,73,74,76-79]{2}[0-9]{7})$/)
+    .message('user "phone" must be a valid Israeli phone number')
+    .required(),
 
-//   web: Joi.string()
-//     .ruleset.regex(urlRegex)
-//     .rule({ message: 'card "web" must be a valid url' })
-//     .allow(""),
+  web: Joi.string()
+    .pattern(/(http(s?):)([/|.|\w|\s|-])*\./)
+    .message('card "web" must be a valid url')
+    .allow(""),
 
-//   image: Joi.object()
-//     .keys({
-//       url: Joi.string()
-//         .ruleset.regex(urlRegex)
-//         .rule({ message: 'card.image "url" must be a valid url' })
-//         .allow(""),
-//       alt: Joi.string().min(2).max(256).allow(""),
-//     })
-//     .required(),
-//   address: Joi.object()
-//     .keys({
-//       state: Joi.string().allow(""),
-//       country: Joi.string().min(2).max(256).required(),
-//       city: Joi.string().min(2).max(256).required(),
-//       street: Joi.string().min(2).max(256).required(),
-//       houseNumber: Joi.number().required(),
-//       zip: Joi.number(),
-//     })
-//     .required(),
-// });
+  image: Joi.object()
+    .keys({
+      url: Joi.string()
+        .pattern(/(http(s?):)([/|.|\w|\s|-])*\./)
+        .message('card.image "url" must be a valid url')
+        .allow(""),
+      alt: Joi.string().min(2).max(256).allow(""),
+    })
+    .required(),
+  address: Joi.object()
+    .keys({
+      state: Joi.string().allow(""),
+      country: Joi.string().min(2).max(256).required(),
+      city: Joi.string().min(2).max(256).required(),
+      street: Joi.string().min(2).max(256).required(),
+      houseNumber: Joi.number().required(),
+      zip: Joi.number(),
+    })
+    .required(),
+});

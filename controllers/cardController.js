@@ -1,5 +1,6 @@
 const { userJwt } = require("../config/jwtConfig.js");
 const { Card } = require("../models/cards.js");
+const { cardValidator } = require("../middleware/validationMiddleware.js");
 exports.getAllCards = async (req, res) => {
   try {
     const cards = await Card.find({});
@@ -30,13 +31,21 @@ exports.createCard = async (req, res) => {
     const userId = userJwt(req, res).userId;
     const cardData = req.body;
     cardData.user_id = userId;
+    const validate = cardValidator.validate(cardData, {
+      abortEarly: false,
+      allowUnknown: true,
+    });
+    if (validate.error) {
+      const errors = validate.error.details.map((err) => err.message);
+      return res.status(403).send(errors);
+    }
     const card = new Card(cardData);
     const savedCard = await card.save();
     res
       .status(201)
       .json({ message: "Card successfully created.", user: savedCard });
   } catch (error) {
-    res.status(500).json({ error: "Internal Server Error1" });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 exports.EditCardData = async (req, res) => {
@@ -45,6 +54,14 @@ exports.EditCardData = async (req, res) => {
     const { id } = req.params;
     const { user_id } = req.body;
     const updateData = req.body;
+    const validate = cardValidator.validate(updateData, {
+      abortEarly: false,
+      allowUnknown: true,
+    });
+    if (validate.error) {
+      const errors = validate.error.details.map((err) => err.message);
+      return res.status(403).send(errors);
+    }
     if (user_id != userId) {
       return res.status(404).send("Cards Not Found");
     }
