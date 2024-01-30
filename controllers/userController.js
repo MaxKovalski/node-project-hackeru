@@ -17,14 +17,6 @@ exports.getSingleUserData = async (req, res) => {
     res.status(404).send("User Not Found");
   }
 };
-exports.GetUserData = (req, res, next) => {
-  const { userId, isAdmin } = userJwt(req, res);
-  const { id } = req.params;
-  if (id != userId && !isAdmin) {
-    return res.status(401).send("User Not Authorized");
-  }
-  next();
-};
 exports.EditUserData = async (req, res) => {
   const { userId } = userJwt(req, res);
   const { id } = req.params;
@@ -75,13 +67,9 @@ exports.EditUserBusiness = async (req, res, next) => {
   }
 };
 exports.deleteUser = async (req, res) => {
-  const { userId } = userJwt(req, res);
   const { id } = req.params;
   try {
-    if (id != userId) {
-      return res.status(404).send("User Not Found");
-    }
-    const userObject = await User.findByIdAndDelete(userId);
+    const userObject = await User.findByIdAndDelete(id);
     if (!userObject) {
       return res.status(404).send("User Not Found");
     }

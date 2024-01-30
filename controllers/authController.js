@@ -68,6 +68,3 @@ exports.login = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
-exports.hello = (req, res) => {
-  res.send("Hello World");
-};

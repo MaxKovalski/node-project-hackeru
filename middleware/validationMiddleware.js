@@ -27,7 +27,7 @@ const userValidatorSchema = Joi.object({
     url: Joi.string()
       .pattern(/(http(s?):)([/|.|\w|\s|-])*\./)
       .message('The "url" must be a valid image URL')
-      .required(),
+      .allow(""),
     alt: Joi.string().min(2).max(50).allow(""),
   }),
 });

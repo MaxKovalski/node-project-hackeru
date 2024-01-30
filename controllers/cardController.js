@@ -1,6 +1,7 @@
 const { userJwt } = require("../config/jwtConfig.js");
 const { Card } = require("../models/cards.js");
 const { cardValidator } = require("../middleware/validationMiddleware.js");
+const { createBizNumber } = require("../helpers/createBizNumber.js");
 exports.getAllCards = async (req, res) => {
   try {
     const cards = await Card.find({});
@@ -40,6 +41,7 @@ exports.createCard = async (req, res) => {
       return res.status(403).send(errors);
     }
     const card = new Card(cardData);
+    card.bizNumber = await createBizNumber();
     const savedCard = await card.save();
     res
       .status(201)

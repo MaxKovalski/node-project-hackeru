@@ -1,0 +1,107 @@
+{
+  "initialUserData": [
+    {
+      "name": { "first": "Basic", "middle": "Initial", "last": "User" },
+      "phone": "054-3808255",
+      "email": "Basic@Basic.com",
+      "password": "Bb$$1234",
+      "address": {
+        "country": "Canada",
+        "city": "Vancouver",
+        "street": "Robson",
+        "houseNumber": "5"
+      },
+      "image": { "url": "", "alt": "" }
+    },
+    {
+      "name": { "first": "Business", "middle": "Initial", "last": "User" },
+      "phone": "054-3808255",
+      "IsBusiness": true,
+      "email": "Business@Business.com",
+      "password": "Bb$$1234",
+      "address": {
+        "country": "Canada",
+        "city": "Vancouver",
+        "street": "Robson",
+        "houseNumber": "5"
+      },
+      "image": { "url": "", "alt": "" }
+    },
+    {
+      "name": { "first": "Admin", "middle": "Initial", "last": "User" },
+      "phone": "054-3808255",
+      "isAdmin": true,
+      "email": "Admin@Business.com",
+      "password": "Aa$$1234",
+      "address": {
+        "country": "Canada",
+        "city": "Vancouver",
+        "street": "Robson",
+        "houseNumber": "5"
+      },
+      "image": { "url": "", "alt": "" }
+    }
+  ],
+  "initialCardData": [
+    {
+      "title": "first card",
+      "subtitle": "this is the first card",
+      "description": "this is the first card in the database",
+      "phone": "050-0000000",
+      "email": "firstCard@gmail.com",
+      "web": "https://www.test.co.il",
+      "image": {
+        "url": "",
+        "alt": "test"
+      },
+      "address": {
+        "state": "",
+        "country": "test",
+        "city": "test",
+        "street": "test",
+        "houseNumber": 3,
+        "zip": "0"
+      }
+    },
+    {
+      "title": "second card",
+      "subtitle": "this is the second card",
+      "description": "this is the second card in the database",
+      "phone": "050-0000000",
+      "email": "secondCard@gmail.com",
+      "web": "https://www.test.co.il",
+      "image": {
+        "url": "",
+        "alt": "test"
+      },
+      "address": {
+        "state": "",
+        "country": "test",
+        "city": "test",
+        "street": "test",
+        "houseNumber": 3,
+        "zip": "0"
+      }
+    },
+    {
+      "title": "third card",
+      "subtitle": "this is the third card",
+      "description": "this is the third card in the database",
+      "phone": "050-0000000",
+      "email": "thirdCard@gmail.com",
+      "web": "https://www.test.co.il",
+      "image": {
+        "url": "",
+        "alt": "test"
+      },
+      "address": {
+        "state": "",
+        "country": "test",
+        "city": "test",
+        "street": "test",
+        "houseNumber": 3,
+        "zip": "0"
+      }
+    }
+  ]
+}
