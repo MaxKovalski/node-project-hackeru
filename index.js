@@ -35,7 +35,7 @@ app.use(
   })
 );
 app.listen(env.parsed.PORT, async () => {
-  console.log(chalk.bgMagenta(`Listen to port: ${env.parsed.PORT}`));
+  console.log(chalk.bgGreen(`Listen to port: ${env.parsed.PORT}`));
 });
 app.use(userRouter);
 app.use(authRouter);

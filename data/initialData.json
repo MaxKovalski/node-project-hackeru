@@ -44,62 +44,62 @@
   ],
   "initialCardData": [
     {
-      "title": "first card",
-      "subtitle": "this is the first card",
-      "description": "this is the first card in the database",
-      "phone": "050-0000000",
-      "email": "firstCard@gmail.com",
-      "web": "https://www.test.co.il",
+      "title": "Cool Card",
+      "subtitle": "Best Cool Card you been see",
+      "description": "Just Cool Card",
+      "phone": "054-3808255",
+      "email": "CoolCard@gmail.com",
+      "web": "https://www.CoolCard.co.il",
       "image": {
         "url": "",
-        "alt": "test"
+        "alt": ""
       },
       "address": {
         "state": "",
-        "country": "test",
-        "city": "test",
-        "street": "test",
-        "houseNumber": 3,
+        "country": "Coolest",
+        "city": "Card",
+        "street": "street",
+        "houseNumber": 9,
         "zip": "0"
       }
     },
     {
-      "title": "second card",
-      "subtitle": "this is the second card",
-      "description": "this is the second card in the database",
-      "phone": "050-0000000",
-      "email": "secondCard@gmail.com",
-      "web": "https://www.test.co.il",
+      "title": "Great Card",
+      "subtitle": "Best Great Card you been see",
+      "description": "Just Cool Card",
+      "phone": "054-3808255",
+      "email": "GreatCard@gmail.com",
+      "web": "https://www.GreatCard.co.il",
       "image": {
         "url": "",
-        "alt": "test"
+        "alt": ""
       },
       "address": {
         "state": "",
-        "country": "test",
-        "city": "test",
-        "street": "test",
-        "houseNumber": 3,
+        "country": "Greatest",
+        "city": "Great",
+        "street": "street",
+        "houseNumber": 10,
         "zip": "0"
       }
     },
     {
-      "title": "third card",
-      "subtitle": "this is the third card",
-      "description": "this is the third card in the database",
-      "phone": "050-0000000",
-      "email": "thirdCard@gmail.com",
-      "web": "https://www.test.co.il",
+      "title": "Fine Card",
+      "subtitle": "Finest Card you been see ",
+      "description": "Just Fine Card",
+      "phone": "0543808255",
+      "email": "FineCard@gmail.com",
+      "web": "https://www.FineCard.co.il",
       "image": {
         "url": "",
-        "alt": "test"
+        "alt": ""
       },
       "address": {
         "state": "",
-        "country": "test",
-        "city": "test",
-        "street": "test",
-        "houseNumber": 3,
+        "country": "Finest",
+        "city": "Fine",
+        "street": "street",
+        "houseNumber": 11,
         "zip": "0"
       }
     }

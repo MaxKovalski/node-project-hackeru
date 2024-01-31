@@ -64,11 +64,6 @@ exports.cardValidator = Joi.object({
   description: Joi.string().required().min(10).max(500),
 
   phone: Joi.string()
-    .regex(/0[0-9]{1,2}\-?\s?[0-9]{3}\s?[0-9]{4}/)
-    .message('user "phone" must be a valid Israeli phone number')
-    .required(),
-
-  phone: Joi.string()
     .pattern(/^(0[2-4,8-9][0-9]{7}|0[57,73,74,76-79]{2}[0-9]{7})$/)
     .message('user "phone" must be a valid Israeli phone number')
     .required(),

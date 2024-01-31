@@ -1,5 +1,9 @@
 const express = require("express");
-const { authUser, businessOnly } = require("../middleware/authMiddleware");
+const {
+  authUser,
+  adminOnly,
+  businessOnly,
+} = require("../middleware/authMiddleware");
 const {
   createCard,
   getAllCards,
@@ -8,6 +12,7 @@ const {
   EditCardData,
   likeCard,
   deleteCard,
+  updateBizNumber,
 } = require("../controllers/cardController");
 const cardRouter = express.Router();
 cardRouter.get("/cards", getAllCards);

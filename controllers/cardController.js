@@ -23,6 +23,7 @@ exports.getSingleCardData = async (req, res) => {
   try {
     const card = await Card.findOne({ _id: req.params.id });
     res.status(200).send(card);
+    console.log(card);
   } catch (error) {
     res.status(404).send("Card Not Found");
   }
@@ -32,6 +33,7 @@ exports.createCard = async (req, res) => {
     const userId = userJwt(req, res).userId;
     const cardData = req.body;
     cardData.user_id = userId;
+    cardData.bizNumber = await createBizNumber();
     const validate = cardValidator.validate(cardData, {
       abortEarly: false,
       allowUnknown: true,
@@ -41,7 +43,7 @@ exports.createCard = async (req, res) => {
       return res.status(403).send(errors);
     }
     const card = new Card(cardData);
-    card.bizNumber = await createBizNumber();
+
     const savedCard = await card.save();
     res
       .status(201)
@@ -94,15 +96,20 @@ exports.likeCard = async (req, res) => {
   res.status(200).json({ message: "Card liked successfully", card: card });
 };
 exports.deleteCard = async (req, res) => {
-  const { userId, isAdmin } = userJwt(req, res);
-  const { id } = req.params;
-  const card = await Card.findById(id);
-  if (card.user_id != userId && !isAdmin) {
-    return res.status(404).send(" Cannot Delete This Card");
+  try {
+    const { userId, isAdmin } = userJwt(req, res);
+    const { id } = req.params;
+    const card = await Card.findById(id);
+    if (card.user_id != userId && !isAdmin) {
+      return res.status(404).send(" Cannot Delete This Card");
+    }
+    const deleteCard = await Card.findByIdAndDelete(id);
+    if (!deleteCard) {
+      return res.status(404).send("Card Not Found");
+    }
+    res.status(200).json({ message: "Card Deleted Successfully" });
+  } catch (error) {
+    res.status(404).json({ error: "Card Not Found" });
   }
-  const deleteCard = await Card.findByIdAndDelete(id);
-  if (!deleteCard) {
-    return res.status(404).send("Card Not Found");
-  }
-  res.status(200).json({ message: "Card Deleted Successfully" });
 };
+// **** Bonus **** //
