@@ -1,7 +1,11 @@
 const { userJwt } = require("../config/jwtConfig.js");
 const { Card } = require("../models/cards.js");
 const { cardValidator } = require("../middleware/validationMiddleware.js");
-const { createBizNumber } = require("../helpers/createBizNumber.js");
+const {
+  createBizNumber,
+  isBizNumberExists,
+} = require("../helpers/createBizNumber.js");
+
 exports.getAllCards = async (req, res) => {
   try {
     const cards = await Card.find({});
@@ -42,6 +46,7 @@ exports.createCard = async (req, res) => {
       const errors = validate.error.details.map((err) => err.message);
       return res.status(403).send(errors);
     }
+    console.log(createCard.bizNumber);
     const card = new Card(cardData);
 
     const savedCard = await card.save();
@@ -112,4 +117,33 @@ exports.deleteCard = async (req, res) => {
     res.status(404).json({ error: "Card Not Found" });
   }
 };
-// **** Bonus **** //
+// **** bizNumber **** //
+exports.updateBizNumber = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { bizNumber } = req.body;
+    const parsedBizNumber = parseInt(bizNumber, 10);
+    if (isNaN(parsedBizNumber)) {
+      return res
+        .status(400)
+        .send({ error: "BizNumber Must Be a Valid Number" });
+    }
+    const exists = await isBizNumberExists(parsedBizNumber);
+    if (exists) {
+      return res.status(409).json({ error: "bizNumber already exists" });
+    }
+    const updateCard = await Card.findByIdAndUpdate(
+      id,
+      { bizNumber: parsedBizNumber },
+      { new: true }
+    );
+    if (!updateCard) {
+      return res.status(404).json({ error: "Card Not Found" });
+    }
+    res
+      .status(200)
+      .json({ message: "bizNumber Successfully Updated", updateCard });
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};

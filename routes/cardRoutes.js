@@ -22,4 +22,5 @@ cardRouter.post("/cards", authUser, businessOnly, createCard);
 cardRouter.put("/cards/:id", authUser, EditCardData);
 cardRouter.patch("/cards/:id", authUser, likeCard);
 cardRouter.delete("/cards/:id", authUser, deleteCard);
+cardRouter.patch("/cards/biz-number/:id", adminOnly, updateBizNumber);
 module.exports = cardRouter;

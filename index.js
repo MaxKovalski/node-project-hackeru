@@ -45,39 +45,4 @@ app.use(express.static("public"));
 app.use((req, res, next) => {
   res.status(404).send("Sorry, page not found");
 });
-
-// Logger Tests
-// app.use((req, res, next) => {
-//   const fileName = `./Logs/log_${moment().format("Y_M_D")}.txt`;
-//   let content = "";
-//   content += `Method:${req.method}\n`;
-//   content += `Route:${req.url}\n`;
-//   content += `Time:${new Date().toISOString()}\n\n`;
-//   fs.appendFile(fileName, content, (err) => {});
-//   next();
-// });
-// app.use((req, res, next) => {
-//   // Save the original res.status function
-//   const originalSendStatus = res.sendStatus;
-
-//   // Override res.status function
-//   res.sendStatus = function (statusCode) {
-//     // If status code is 400 or higher, log the request
-//     if (statusCode >= 400) {
-//       const fileName = `./logs/log_${moment().format("YYYY_MM_DD")}.txt`;
-//       let content = `Date: ${new Date().toISOString()}\n`;
-//       content += `Status Code: ${statusCode}\n`;
-//       content += `Error Message: ${res.statusMessage}\n\n`;
-//       fs.appendFileSync(fileName, content, (err) => {
-//         if (err) {
-//           console.error("Error writing to log file", err);
-//         }
-//       });
-//     }
-
-//     // Call the original sendStatus method
-//     return originalSendStatus.apply(this, arguments);
-//   };
-
-//   next();
-// });
+// **** Error Logger Bonus **** //
