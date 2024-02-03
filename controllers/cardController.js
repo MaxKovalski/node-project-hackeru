@@ -11,7 +11,7 @@ exports.getAllCards = async (req, res) => {
     const cards = await Card.find({});
     res.status(200).json(cards);
   } catch (error) {
-    res.status(500).send(error);
+    return res.status(500).json({ error: error });
   }
 };
 exports.getBusinessUserCard = async (req, res) => {
@@ -20,7 +20,7 @@ exports.getBusinessUserCard = async (req, res) => {
     const cards = await Card.find({ user_id: userId });
     res.status(200).json(cards);
   } catch (error) {
-    res.status(500).send(error);
+    return res.status(500).json({ message: error });
   }
 };
 exports.getSingleCardData = async (req, res) => {
@@ -29,7 +29,7 @@ exports.getSingleCardData = async (req, res) => {
     res.status(200).send(card);
     console.log(card);
   } catch (error) {
-    res.status(404).send("Card Not Found");
+    return res.status(404).json({ message: "Card Not Found" });
   }
 };
 exports.createCard = async (req, res) => {
@@ -43,8 +43,8 @@ exports.createCard = async (req, res) => {
       allowUnknown: true,
     });
     if (validate.error) {
-      const errors = validate.error.details.map((err) => err.message);
-      return res.status(403).send(errors);
+      const error = validate.error.details.map((err) => err.message);
+      return res.status(500).json({ message: error });
     }
     console.log(createCard.bizNumber);
     const card = new Card(cardData);
@@ -54,7 +54,7 @@ exports.createCard = async (req, res) => {
       .status(201)
       .json({ message: "Card successfully created.", user: savedCard });
   } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 exports.EditCardData = async (req, res) => {
@@ -68,24 +68,24 @@ exports.EditCardData = async (req, res) => {
       allowUnknown: true,
     });
     if (validate.error) {
-      const errors = validate.error.details.map((err) => err.message);
-      return res.status(403).send(errors);
+      const error = validate.error.details.map((err) => err.message);
+      return res.status(500).json({ message: error });
     }
     if (user_id != userId) {
-      return res.status(404).send("Cards Not Found");
+      return res.status(404).json({ message: "Cards Not Found" });
     }
     const updatedCard = await Card.findByIdAndUpdate(id, updateData, {
       new: true,
     });
     if (!updatedCard) {
-      return res.status(404).send("Card Not Found");
+      return res.status(404).json({ message: "Card Not Found" });
     }
     const cardObject = updatedCard.toObject();
     res
       .status(200)
       .json({ message: "Card Data Updated Successfully", card: cardObject });
   } catch (error) {
-    res.status(404).json({ error: "Card Not Found" });
+    return res.status(404).json({ message: "Card Not Found" });
   }
 };
 exports.likeCard = async (req, res) => {
@@ -96,7 +96,7 @@ exports.likeCard = async (req, res) => {
     { new: true }
   );
   if (!card) {
-    return res.status(404).send("Card Not Found");
+    return res.status(404).json({ message: "Card Not Found" });
   }
   res.status(200).json({ message: "Card liked successfully", card: card });
 };
@@ -106,15 +106,15 @@ exports.deleteCard = async (req, res) => {
     const { id } = req.params;
     const card = await Card.findById(id);
     if (card.user_id != userId && !isAdmin) {
-      return res.status(404).send(" Cannot Delete This Card");
+      return res.status(404).json({ message: "Cannot Delete This Card" });
     }
     const deleteCard = await Card.findByIdAndDelete(id);
     if (!deleteCard) {
-      return res.status(404).send("Card Not Found");
+      return res.status(404).json({ message: "Card Not Found" });
     }
     res.status(200).json({ message: "Card Deleted Successfully" });
   } catch (error) {
-    res.status(404).json({ error: "Card Not Found" });
+    return res.status(404).json({ message: "Card Not Found" });
   }
 };
 // **** bizNumber **** //
@@ -125,12 +125,12 @@ exports.updateBizNumber = async (req, res) => {
     const parsedBizNumber = parseInt(bizNumber, 10);
     if (isNaN(parsedBizNumber)) {
       return res
-        .status(400)
-        .send({ error: "BizNumber Must Be a Valid Number" });
+        .status(404)
+        .json({ message: "BizNumber Must Be a Valid Number" });
     }
     const exists = await isBizNumberExists(parsedBizNumber);
     if (exists) {
-      return res.status(409).json({ error: "bizNumber already exists" });
+      return res.status(409).json({ message: "bizNumber already exists" });
     }
     const updateCard = await Card.findByIdAndUpdate(
       id,
@@ -138,12 +138,12 @@ exports.updateBizNumber = async (req, res) => {
       { new: true }
     );
     if (!updateCard) {
-      return res.status(404).json({ error: "Card Not Found" });
+      return res.status(404).json({ message: "Card Not Found" });
     }
     res
       .status(200)
       .json({ message: "bizNumber Successfully Updated", updateCard });
   } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };

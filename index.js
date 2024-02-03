@@ -5,11 +5,13 @@ const userRouter = require("./routes/userRoutes");
 const authRouter = require("./routes/authRoutes");
 const env = require("dotenv").config();
 const moment = require("moment");
-const fs = require("fs");
+
 const morgan = require("morgan");
 const chalk = require("chalk");
 const cardRouter = require("./routes/cardRoutes");
 const createInitialData = require("./helpers/createInitialData");
+const fs = require("fs");
+const { format } = require("date-fns");
 async function mongoConnect() {
   try {
     await mongoose.connect(env.parsed.MONGO_URL);
@@ -34,15 +36,37 @@ app.use(
     allowedHeaders: "Content-Type, Accept, Authorization",
   })
 );
+// **** Error Logger Bonus **** //
+app.use((req, res, next) => {
+  const fileName = `./logs/log_${moment().format("Y_M_D")}.txt`;
+  let responseBody;
+  const oldJson = res.json;
+  res.json = function (data) {
+    responseBody = data;
+    oldJson.apply(res, arguments);
+  };
+  res.on("finish", () => {
+    if (res.statusCode >= 400) {
+      let content = "";
+      content += `Time: ${format(new Date(), "dd-MM-yyyy HH:mm:ss")}\n`;
+      content += `Method: ${req.method}\n`;
+      content += `Route: ${req.url}\n`;
+      content += `Status: ${res.statusCode}\n`;
+      content += `Response: ${JSON.stringify(responseBody)}\n`;
+      content += "\n";
+      fs.appendFile(fileName, content, (err) => {});
+    }
+  });
+  next();
+});
+// **** Error Logger Bonus **** //
 app.listen(env.parsed.PORT, async () => {
   console.log(chalk.bgGreen(`Listen to port: ${env.parsed.PORT}`));
 });
 app.use(userRouter);
 app.use(authRouter);
 app.use(cardRouter);
-
 app.use(express.static("public"));
-app.use((req, res, next) => {
+app.use((req, res) => {
   res.status(404).send("Sorry, page not found");
 });
-// **** Error Logger Bonus **** //

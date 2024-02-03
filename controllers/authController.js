@@ -15,7 +15,7 @@ exports.signup = async (req, res) => {
     });
     if (validate.error) {
       const errors = validate.error.details.map((err) => err.message);
-      return res.status(403).send(errors);
+      return res.status(403).json({ error: errors });
     }
     const hashedPassword = await bcrypt.hash(userData.password, 10);
     userData.password = hashedPassword;
@@ -28,7 +28,7 @@ exports.signup = async (req, res) => {
     if (error.code === 11000) {
       return res.status(400).json({ error: "Email is already registered." });
     }
-    res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 };
 exports.login = async (req, res) => {
@@ -39,16 +39,35 @@ exports.login = async (req, res) => {
     });
     if (validate.error) {
       const errors = validate.error.details.map((err) => err.message);
-      return res.status(403).send(errors);
+      return res.status(403).json({ error: errors });
     }
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(403).send("email or password in incorrect");
+      return res.status(403).json({ message: "Email Not Existing" });
     }
+    if (user.lockUntil && user.lockUntil > Date.now()) {
+      return res.status(403).json({
+        message:
+          "Your account has been locked after 3 attempts, please contact admin or wait 24 hours.",
+      });
+    }
+
     const passwordMatch = await bcrypt.compare(password, user.password);
+    // **** Locked User Bonus **** //
     if (!passwordMatch) {
-      return res.status(401).send("email or password in incorrect");
+      user.loginAttempts += 1;
+      if (user.loginAttempts >= 3) {
+        user.lockUntil = Date.now() + 24 * 60 * 60 * 1000;
+        user.loginAttempts = 0;
+      }
+      await user.save();
+      return res
+        .status(401)
+        .json({ message: "Email or password is incorrect." });
     }
+    user.loginAttempts = 0;
+    user.lockUntil = undefined;
+    await user.save();
     const userObject = user.toObject();
     delete userObject.password;
     delete userObject.email;

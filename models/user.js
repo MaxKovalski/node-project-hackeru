@@ -36,5 +36,7 @@ const schema = new Schema({
     default: false,
   },
   createTime: { type: Date, default: Date.now() },
+  loginAttempts: { type: Number, required: true, default: 0 },
+  lockUntil: { type: Date },
 });
 exports.User = mongoose.model("users", schema);

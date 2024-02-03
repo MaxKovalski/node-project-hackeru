@@ -6,7 +6,7 @@ exports.getAllUsers = async (req, res) => {
     const users = await User.find({});
     res.status(200).json(users);
   } catch (error) {
-    res.status(500).send(error);
+    return res.status(500).json({ message: error });
   }
 };
 exports.getSingleUserData = async (req, res) => {
@@ -14,7 +14,7 @@ exports.getSingleUserData = async (req, res) => {
     const user = await User.findOne({ _id: req.params.id }).select("-password");
     res.status(200).send(user);
   } catch (error) {
-    res.status(404).send("User Not Found");
+    return res.status(404).json({ message: "User Not Found" });
   }
 };
 exports.EditUserData = async (req, res) => {
@@ -23,7 +23,7 @@ exports.EditUserData = async (req, res) => {
   const updateData = req.body;
   try {
     if (id != userId) {
-      return res.status(401).send("User Not Found");
+      return res.status(404).json({ message: "User Not Found" });
     }
     const validate = editUserValidator.validate(req.body, {
       abortEarly: false,
@@ -38,7 +38,7 @@ exports.EditUserData = async (req, res) => {
     });
 
     if (!updatedUser) {
-      return res.status(404).send("User Not Found");
+      return res.status(404).json({ message: "User Not Found" });
     }
     const userObject = updatedUser.toObject();
     delete userObject.password;
@@ -47,7 +47,7 @@ exports.EditUserData = async (req, res) => {
       .json({ message: "User Data Updated Successfully", user: userObject });
   } catch (error) {
     console.error(error);
-    res.status(404).json({ error: "User Not Found" });
+    return res.status(404).json({ message: "User Not Found" });
   }
 };
 exports.EditUserBusiness = async (req, res, next) => {
@@ -55,15 +55,14 @@ exports.EditUserBusiness = async (req, res, next) => {
   const { id } = req.params;
   try {
     if (id != userId) {
-      return res.status(401).send("User Not Found");
+      return res.status(404).json({ message: "User Not Found" });
     }
     const userObject = await User.findById(userId);
     userObject.IsBusiness = !userObject.IsBusiness;
     await userObject.save();
     res.status(200).json({ message: "User Business Status Toggled" });
   } catch (error) {
-    console.error(error);
-    res.status(401).json({ error: "User Not Found" });
+    return res.status(404).json({ message: "User Not Found" });
   }
 };
 exports.deleteUser = async (req, res) => {
@@ -71,10 +70,10 @@ exports.deleteUser = async (req, res) => {
   try {
     const userObject = await User.findByIdAndDelete(id);
     if (!userObject) {
-      return res.status(404).send("User Not Found");
+      return res.status(404).json({ message: "User Not Found" });
     }
     res.status(200).json({ message: "User Deleted Successfully" });
   } catch (error) {
-    res.status(404).json({ error: "User Not Found" });
+    return res.status(404).json({ message: "User Not Found" });
   }
 };
