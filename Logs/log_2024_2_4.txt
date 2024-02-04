@@ -1,0 +1,6 @@
+Time: 04-02-2024 23:49:56
+Method: GET
+Route: /
+Status: 404
+Response: {"error":"Sorry, page not found 404"}
+
