@@ -61,9 +61,9 @@ This project implements a REST API server using Node.js to serve a web applicati
 To get started with this project, clone the repository and install dependencies:
 
 ```bash
-git clone [repository-url]
-cd [project-directory]
-npm install
+git clone https://github.com/MaxKovalski/node-project-hackeru.git
+Change into the project directory
+Install the necessary dependencies
 ```
 
 Ensure you have a MongoDB instance running and configure your `.env` file with the appropriate environment variables.
