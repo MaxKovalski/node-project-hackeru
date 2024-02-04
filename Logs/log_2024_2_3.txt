@@ -1048,3 +1048,21 @@ Route: /login
 Status: 403
 Response: {"message":"Your account has been locked after 3 attempts, please contact admin or wait 24 hours."}
 
+Time: 03-02-2024 23:41:17
+Method: GET
+Route: /favicon.ico
+Status: 404
+Response: undefined
+
+Time: 03-02-2024 23:43:26
+Method: GET
+Route: /234234
+Status: 404
+Response: undefined
+
+Time: 03-02-2024 23:43:35
+Method: GET
+Route: /12334523434
+Status: 404
+Response: undefined
+

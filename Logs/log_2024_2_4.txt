@@ -1,0 +1,72 @@
+Time: 04-02-2024 00:00:50
+Method: GET
+Route: /
+Status: 404
+Response: undefined
+
+Time: 04-02-2024 21:47:40
+Method: POST
+Route: /signup
+Status: 406
+Response: {"error":[" \"email\" must be a valid email address","user \"phone\" must be a valid Israeli phone number"]}
+
+Time: 04-02-2024 21:49:27
+Method: POST
+Route: /signup
+Status: 406
+Response: {"error":" \"email\" must be a valid email address"}
+
+Time: 04-02-2024 21:49:28
+Method: POST
+Route: /signup
+Status: 406
+Response: {"error":" \"email\" must be a valid email address"}
+
+Time: 04-02-2024 21:49:29
+Method: POST
+Route: /signup
+Status: 406
+Response: {"error":" \"email\" must be a valid email address"}
+
+Time: 04-02-2024 21:49:29
+Method: POST
+Route: /signup
+Status: 406
+Response: {"error":" \"email\" must be a valid email address"}
+
+Time: 04-02-2024 21:49:33
+Method: POST
+Route: /signup
+Status: 406
+Response: {"error":"user \"phone\" must be a valid Israeli phone number"}
+
+Time: 04-02-2024 21:49:38
+Method: POST
+Route: /signup
+Status: 406
+Response: {"error":"user \"phone\" must be a valid Israeli phone number"}
+
+Time: 04-02-2024 21:49:38
+Method: POST
+Route: /signup
+Status: 406
+Response: {"error":"user \"phone\" must be a valid Israeli phone number"}
+
+Time: 04-02-2024 21:49:42
+Method: POST
+Route: /signup
+Status: 406
+Response: {"error":"\"address.country\" is not allowed to be empty"}
+
+Time: 04-02-2024 21:50:04
+Method: POST
+Route: /signup
+Status: 406
+Response: {"error":"\"address.country\" is not allowed to be empty"}
+
+Time: 04-02-2024 21:50:05
+Method: POST
+Route: /signup
+Status: 406
+Response: {"error":"\"address.country\" is not allowed to be empty"}
+

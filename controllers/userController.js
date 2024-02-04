@@ -31,7 +31,7 @@ exports.EditUserData = async (req, res) => {
     });
     if (validate.error) {
       const errors = validate.error.details.map((err) => err.message);
-      return res.status(403).send(errors);
+      return res.status(400).send(errors);
     }
     const updatedUser = await User.findByIdAndUpdate(userId, updateData, {
       new: true,

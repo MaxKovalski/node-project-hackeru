@@ -14,8 +14,8 @@ exports.signup = async (req, res) => {
       abortEarly: false,
     });
     if (validate.error) {
-      const errors = validate.error.details.map((err) => err.message);
-      return res.status(403).json({ error: errors });
+      const errors = validate.error.details[0].message;
+      return res.status(406).json({ error: errors });
     }
     const hashedPassword = await bcrypt.hash(userData.password, 10);
     userData.password = hashedPassword;
@@ -38,20 +38,19 @@ exports.login = async (req, res) => {
       abortEarly: false,
     });
     if (validate.error) {
-      const errors = validate.error.details.map((err) => err.message);
-      return res.status(403).json({ error: errors });
+      const errors = validate.error.details[0].message;
+      return res.status(406).json({ error: errors });
     }
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(403).json({ message: "Email Not Existing" });
+      return res.status(404).json({ message: "Email Not Found" });
     }
     if (user.lockUntil && user.lockUntil > Date.now()) {
-      return res.status(403).json({
+      return res.status(429).json({
         message:
           "Your account has been locked after 3 attempts, please contact admin or wait 24 hours.",
       });
     }
-
     const passwordMatch = await bcrypt.compare(password, user.password);
     // **** Locked User Bonus **** //
     if (!passwordMatch) {
@@ -62,7 +61,7 @@ exports.login = async (req, res) => {
       }
       await user.save();
       return res
-        .status(401)
+        .status(400)
         .json({ message: "Email or password is incorrect." });
     }
     user.loginAttempts = 0;

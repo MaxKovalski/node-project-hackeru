@@ -44,7 +44,7 @@ exports.createCard = async (req, res) => {
     });
     if (validate.error) {
       const error = validate.error.details.map((err) => err.message);
-      return res.status(500).json({ message: error });
+      return res.status(400).json({ message: error });
     }
     console.log(createCard.bizNumber);
     const card = new Card(cardData);
@@ -69,7 +69,7 @@ exports.EditCardData = async (req, res) => {
     });
     if (validate.error) {
       const error = validate.error.details.map((err) => err.message);
-      return res.status(500).json({ message: error });
+      return res.status(400).json({ message: error });
     }
     if (user_id != userId) {
       return res.status(404).json({ message: "Cards Not Found" });
@@ -98,7 +98,7 @@ exports.likeCard = async (req, res) => {
   if (!card) {
     return res.status(404).json({ message: "Card Not Found" });
   }
-  res.status(200).json({ message: "Card liked successfully", card: card });
+  res.status(201).json({ message: "Card liked successfully", card: card });
 };
 exports.deleteCard = async (req, res) => {
   try {
@@ -125,12 +125,12 @@ exports.updateBizNumber = async (req, res) => {
     const parsedBizNumber = parseInt(bizNumber, 10);
     if (isNaN(parsedBizNumber)) {
       return res
-        .status(404)
+        .status(400)
         .json({ message: "BizNumber Must Be a Valid Number" });
     }
     const exists = await isBizNumberExists(parsedBizNumber);
     if (exists) {
-      return res.status(409).json({ message: "bizNumber already exists" });
+      return res.status(406).json({ message: "bizNumber already exists" });
     }
     const updateCard = await Card.findByIdAndUpdate(
       id,

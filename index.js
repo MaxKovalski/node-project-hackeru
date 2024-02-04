@@ -67,6 +67,6 @@ app.use(userRouter);
 app.use(authRouter);
 app.use(cardRouter);
 app.use(express.static("public"));
-app.use((req, res) => {
-  res.status(404).send("Sorry, page not found");
+app.use("*", (req, res) => {
+  res.status(404).send("Sorry, page not found 404");
 });
