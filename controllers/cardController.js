@@ -23,6 +23,7 @@ exports.getBusinessUserCard = async (req, res) => {
     return res.status(500).json({ message: error });
   }
 };
+
 exports.getSingleCardData = async (req, res) => {
   try {
     const card = await Card.findOne({ _id: req.params.id });
@@ -32,6 +33,7 @@ exports.getSingleCardData = async (req, res) => {
     return res.status(404).json({ message: "Card Not Found" });
   }
 };
+
 exports.createCard = async (req, res) => {
   try {
     const userId = userJwt(req, res).userId;
@@ -57,6 +59,7 @@ exports.createCard = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
 exports.EditCardData = async (req, res) => {
   try {
     const { userId } = userJwt(req, res);
@@ -89,6 +92,7 @@ exports.EditCardData = async (req, res) => {
     return res.status(404).json({ message: "Card Not Found" });
   }
 };
+
 exports.likeCard = async (req, res) => {
   const { userId } = userJwt(req, res);
   try {
@@ -115,6 +119,7 @@ exports.likeCard = async (req, res) => {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
 exports.deleteCard = async (req, res) => {
   try {
     const { userId, isAdmin } = userJwt(req, res);
@@ -132,6 +137,7 @@ exports.deleteCard = async (req, res) => {
     return res.status(404).json({ message: "Card Not Found" });
   }
 };
+
 // **** bizNumber **** //
 exports.updateBizNumber = async (req, res) => {
   try {

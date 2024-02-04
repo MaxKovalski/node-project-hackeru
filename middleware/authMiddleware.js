@@ -19,18 +19,21 @@ exports.sameId = (req, res, next) => {
   }
   next();
 };
+
 exports.adminOnly = (req, res, next) => {
   if (!userJwt(req, res).isAdmin) {
     return res.status(401).json({ message: "Access denied. Admins only" });
   }
   next();
 };
+
 exports.businessOnly = (req, res, next) => {
   if (!userJwt(req, res).IsBusiness) {
     return res.status(401).json({ message: "Access denied. Business only" });
   }
   next();
 };
+
 exports.sameIdOrAdmin = (req, res, next) => {
   const { userId, isAdmin } = userJwt(req, res);
   const { id } = req.params;

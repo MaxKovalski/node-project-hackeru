@@ -17,6 +17,7 @@ exports.getSingleUserData = async (req, res) => {
     return res.status(404).json({ message: "User Not Found" });
   }
 };
+
 exports.EditUserData = async (req, res) => {
   const { userId } = userJwt(req, res);
   const { id } = req.params;
@@ -50,6 +51,7 @@ exports.EditUserData = async (req, res) => {
     return res.status(404).json({ message: "User Not Found" });
   }
 };
+
 exports.EditUserBusiness = async (req, res, next) => {
   const { userId } = userJwt(req, res);
   const { id } = req.params;
@@ -67,6 +69,7 @@ exports.EditUserBusiness = async (req, res, next) => {
     return res.status(404).json({ message: "User Not Found" });
   }
 };
+
 exports.deleteUser = async (req, res) => {
   const { id } = req.params;
   try {

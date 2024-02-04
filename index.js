@@ -5,7 +5,6 @@ const userRouter = require("./routes/userRoutes");
 const authRouter = require("./routes/authRoutes");
 const env = require("dotenv").config();
 const moment = require("moment");
-
 const morgan = require("morgan");
 const chalk = require("chalk");
 const cardRouter = require("./routes/cardRoutes");
@@ -36,6 +35,7 @@ app.use(
     allowedHeaders: "Content-Type, Accept, Authorization",
   })
 );
+
 // **** Error Logger Bonus **** //
 app.use((req, res, next) => {
   const fileName = `./logs/log_${moment().format("Y_M_D")}.txt`;
@@ -60,6 +60,7 @@ app.use((req, res, next) => {
   next();
 });
 // **** Error Logger Bonus **** //
+
 app.listen(env.parsed.PORT, async () => {
   console.log(chalk.bgGreen(`Listen to port: ${env.parsed.PORT}`));
 });

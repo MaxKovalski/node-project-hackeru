@@ -42,6 +42,7 @@ exports.newUserValidator = userValidatorSchema.append({
     .required(),
 });
 exports.editUserValidator = userValidatorSchema;
+
 exports.loginUserValidator = Joi.object({
   email: Joi.string()
     .email({ tlds: { allow: false } })
@@ -56,6 +57,7 @@ exports.loginUserValidator = Joi.object({
     )
     .required(),
 });
+
 exports.cardValidator = Joi.object({
   title: Joi.string().required().min(2).max(100),
 
