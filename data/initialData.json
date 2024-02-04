@@ -3,7 +3,7 @@
     {
       "name": { "first": "Basic", "middle": "Initial", "last": "User" },
       "phone": "054-3808255",
-      "email": "Basic@Basic.com",
+      "email": "basic@basic.com",
       "password": "Bb$$1234",
       "address": {
         "country": "Canada",
@@ -17,7 +17,7 @@
       "name": { "first": "Business", "middle": "Initial", "last": "User" },
       "phone": "054-3808255",
       "IsBusiness": true,
-      "email": "Business@Business.com",
+      "email": "business@business.com",
       "password": "Bb$$1234",
       "address": {
         "country": "Canada",
@@ -31,7 +31,7 @@
       "name": { "first": "Admin", "middle": "Initial", "last": "User" },
       "phone": "054-3808255",
       "isAdmin": true,
-      "email": "Admin@Business.com",
+      "email": "admin@admin.com",
       "password": "Aa$$1234",
       "address": {
         "country": "Canada",

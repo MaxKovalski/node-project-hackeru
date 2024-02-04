@@ -14,8 +14,8 @@ exports.signup = async (req, res) => {
       abortEarly: false,
     });
     if (validate.error) {
-      const errors = validate.error.details[0].message;
-      return res.status(406).json({ error: errors });
+      const error = validate.error.details[0].message;
+      return res.status(406).json({ error: error });
     }
     const hashedPassword = await bcrypt.hash(userData.password, 10);
     userData.password = hashedPassword;
@@ -38,8 +38,8 @@ exports.login = async (req, res) => {
       abortEarly: false,
     });
     if (validate.error) {
-      const errors = validate.error.details[0].message;
-      return res.status(406).json({ error: errors });
+      const error = validate.error.details[0].message;
+      return res.status(406).json({ error: error });
     }
     const user = await User.findOne({ email });
     if (!user) {

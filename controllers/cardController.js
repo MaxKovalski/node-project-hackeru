@@ -43,10 +43,10 @@ exports.createCard = async (req, res) => {
       allowUnknown: true,
     });
     if (validate.error) {
-      const error = validate.error.details.map((err) => err.message);
+      const error = validate.error.details[0].message;
       return res.status(400).json({ message: error });
     }
-    console.log(createCard.bizNumber);
+
     const card = new Card(cardData);
 
     const savedCard = await card.save();
@@ -68,11 +68,12 @@ exports.EditCardData = async (req, res) => {
       allowUnknown: true,
     });
     if (validate.error) {
-      const error = validate.error.details.map((err) => err.message);
+      const error = validate.error.details[0].message;
       return res.status(400).json({ message: error });
     }
     if (user_id != userId) {
-      return res.status(404).json({ message: "Cards Not Found" });
+      console.log(user_id);
+      return res.status(404).json({ message: "Card Not Found1" });
     }
     const updatedCard = await Card.findByIdAndUpdate(id, updateData, {
       new: true,
@@ -90,15 +91,29 @@ exports.EditCardData = async (req, res) => {
 };
 exports.likeCard = async (req, res) => {
   const { userId } = userJwt(req, res);
-  const card = await Card.findOneAndUpdate(
-    { _id: req.params.id },
-    { $addToSet: { likes: userId } },
-    { new: true }
-  );
-  if (!card) {
-    return res.status(404).json({ message: "Card Not Found" });
+  try {
+    const card = await Card.findById(req.params.id);
+    if (!card) {
+      return res.status(404).json({ message: "Card Not Found" });
+    }
+    const index = card.likes.indexOf(userId);
+    let jsonMessage;
+    if (index === -1) {
+      card.likes.push(userId);
+      jsonMessage = "Card Liked Successfully";
+    } else {
+      card.likes.splice(index, 1);
+      jsonMessage = "Card Unliked Successfully";
+    }
+    await card.save();
+    res.status(201).json({
+      message: jsonMessage,
+      likes: card.likes,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal Server Error" });
   }
-  res.status(201).json({ message: "Card liked successfully", card: card });
 };
 exports.deleteCard = async (req, res) => {
   try {

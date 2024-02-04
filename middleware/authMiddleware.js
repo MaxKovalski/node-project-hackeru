@@ -9,6 +9,16 @@ exports.authUser = (req, res, next) => {
     }
   });
 };
+exports.sameId = (req, res, next) => {
+  const { userId } = userJwt(req, res);
+  const { id } = req.params;
+  if (id != userId) {
+    return res.status(401).json({
+      message: "You can't change that user, you can change only your user",
+    });
+  }
+  next();
+};
 exports.adminOnly = (req, res, next) => {
   if (!userJwt(req, res).isAdmin) {
     return res.status(401).json({ message: "Access denied. Admins only" });

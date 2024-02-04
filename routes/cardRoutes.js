@@ -3,6 +3,7 @@ const {
   authUser,
   adminOnly,
   businessOnly,
+  sameIdOrAdmin,
 } = require("../middleware/authMiddleware");
 const {
   createCard,
@@ -21,6 +22,6 @@ cardRouter.get("/cards/:id", getSingleCardData);
 cardRouter.post("/cards", authUser, businessOnly, createCard);
 cardRouter.put("/cards/:id", authUser, EditCardData);
 cardRouter.patch("/cards/:id", authUser, likeCard);
-cardRouter.delete("/cards/:id", authUser, deleteCard);
+cardRouter.delete("/cards/:id", authUser, sameIdOrAdmin, deleteCard);
 cardRouter.patch("/cards/biz-number/:id", adminOnly, updateBizNumber);
 module.exports = cardRouter;

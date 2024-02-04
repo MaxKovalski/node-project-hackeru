@@ -53,6 +53,8 @@ exports.EditUserData = async (req, res) => {
 exports.EditUserBusiness = async (req, res, next) => {
   const { userId } = userJwt(req, res);
   const { id } = req.params;
+  console.log(userId);
+  console.log(id);
   try {
     if (id != userId) {
       return res.status(404).json({ message: "User Not Found" });
