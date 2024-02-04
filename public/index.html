@@ -3,82 +3,209 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Node.js Project README</title>
+    <title>Node.js REST API for Business Content Management</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <header>
-      <h1>Node.js REST API Project</h1>
-      <p>Author: David Yachin</p>
+      <h1>Node.js REST API for Business Content Management</h1>
+      <p>
+        This project implements a REST API server using Node.js to serve a web
+        application for business content management. The API allows business
+        users to publish, edit, and delete content.
+      </p>
     </header>
 
-    <section id="introduction">
-      <h2>Introduction</h2>
+    <section>
+      <h2>Key Features</h2>
+      <ul>
+        <li>User registration, login, and management.</li>
+        <li>Business card creation and management.</li>
+        <li>Content publication with access control for business users.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Technologies</h2>
       <p>
-        This project involves building a REST API for a web application with
-        user and card management functionalities.
+        Technologies used in this project include MongoDB, Express.js, Mongoose,
+        Bcryptjs, Joi, JsonWebToken, Config, Morgan, Cors, and Chalk.
       </p>
     </section>
 
-    <section id="technologies">
-      <h2>Technologies and Libraries</h2>
-      <ul>
-        <li>Node.js</li>
-        <li>MongoDB</li>
-        <li>Express.js</li>
-        <li>Mongoose</li>
-        <li>Bcryptjs</li>
-        <li>Joi</li>
-        <li>Jsonwebtoken</li>
-        <li>Config</li>
-        <li>Morgan</li>
-        <li>Cors</li>
-        <li>Chalk</li>
-        <!-- Add other technologies here -->
-      </ul>
-    </section>
-
-    <section id="endpoints">
-      <h2>API Endpoints</h2>
-      <h3>Users Endpoints</h3>
-      <!-- List user endpoints here -->
-      <h3>Cards Endpoints</h3>
-      <!-- List card endpoints here -->
-    </section>
-
-    <section id="features">
-      <h2>Additional Features</h2>
-      <ul>
-        <li>Logger with Morgan</li>
-        <li>Console styling with Chalk</li>
-        <li>Cross-Origin Resource Sharing (CORS)</li>
-        <li>Environment Configuration</li>
-        <li>Handling JSON in HTTP Requests</li>
-        <!-- Add other features here -->
-      </ul>
-    </section>
-
-    <section id="setup">
-      <h2>Environment Setup</h2>
-      <p>Instructions on setting up the local and cloud environments.</p>
-    </section>
-
-    <section id="bonus-features">
+    <section>
       <h2>Bonus Features</h2>
       <ul>
-        <li>Business number modification by admin</li>
-        <li>File logger for requests with status code 400+</li>
-        <li>Google API integration for user authentication</li>
-        <li>User blocking mechanism</li>
-        <!-- Add other bonus features here -->
+        <li>Biz Number: Can edit Biz Number</li>
+        <li>File Logger: Catch all 400+ errors to folder logs</li>
+        <li>Block User: After 3 attempts user blocked for 24 hours</li>
       </ul>
     </section>
 
-    <footer>
-      <p>
-        For more information, visit the project repository or contact the
-        author.
-      </p>
-    </footer>
+    <section>
+      <h2>API Endpoints</h2>
+      <h3>User Endpoints</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>No.</th>
+            <th>Method</th>
+            <th>URL</th>
+            <th>Action</th>
+            <th>Authorization</th>
+            <th>Return</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>POST</td>
+            <td>/users</td>
+            <td>Register user</td>
+            <td>All</td>
+            <td>User object</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>POST</td>
+            <td>/users/login</td>
+            <td>Login</td>
+            <td>All</td>
+            <td>JWT</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>GET</td>
+            <td>/users</td>
+            <td>Get all users</td>
+            <td>Admin</td>
+            <td>Users array</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>GET</td>
+            <td>/users/:id</td>
+            <td>Get user</td>
+            <td>Registered user or Admin</td>
+            <td>User object</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>PUT</td>
+            <td>/users/:id</td>
+            <td>Edit user</td>
+            <td>Registered user</td>
+            <td>Updated user</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>PATCH</td>
+            <td>/users/:id</td>
+            <td>Change isBusiness</td>
+            <td>Registered user</td>
+            <td>Updated status</td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>DELETE</td>
+            <td>/users/:id</td>
+            <td>Delete user</td>
+            <td>Registered user or Admin</td>
+            <td>Deleted user</td>
+          </tr>
+        </tbody>
+      </table>
+      <h3>Card Endpoints</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>No.</th>
+            <th>Method</th>
+            <th>URL</th>
+            <th>Action</th>
+            <th>Authorization</th>
+            <th>Return</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>GET</td>
+            <td>/cards</td>
+            <td>Get all cards</td>
+            <td>All</td>
+            <td>Cards array</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>GET</td>
+            <td>/cards/my-cards</td>
+            <td>Get user cards</td>
+            <td>Registered user</td>
+            <td>User's cards</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>GET</td>
+            <td>/cards/:id</td>
+            <td>Get card</td>
+            <td>All</td>
+            <td>Card object</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>POST</td>
+            <td>/cards</td>
+            <td>Create new card</td>
+            <td>Business user</td>
+            <td>Created card</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>PUT</td>
+            <td>/cards/:id</td>
+            <td>Edit card</td>
+            <td>Card creator</td>
+            <td>Updated card</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>PATCH</td>
+            <td>/cards/:id</td>
+            <td>Like card</td>
+            <td>Registered user</td>
+            <td>Updated card</td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>DELETE</td>
+            <td>/cards/:id</td>
+            <td>Delete card</td>
+            <td>Card creator or Admin</td>
+            <td>Deleted card</td>
+          </tr>
+          <tr>
+            <td>8</td>
+            <td>PATCH</td>
+            <td>/cards/biz-number/:id</td>
+            <td>Edit Biz Number</td>
+            <td>Admin</td>
+            <td>Updated Biz Number</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Getting Started</h2>
+      <pre><code>git clone https://github.com/MaxKovalski/node-project-hackeru.git
+Change into the project directory
+Install the necessary dependencies</code></pre>
+    </section>
+
+    <section>
+      <h2>Usage</h2>
+      <pre><code>npm start</code></pre>
+    </section>
   </body>
 </html>
